@@ -9,3 +9,17 @@ getgenv().LoadSettings = {
 }
 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3acbf8ea627f090532fc8af027438e17.lua"))()
+
+wait(60)
+
+local Lib = getgenv().hgLib
+if not Lib.Network.InvokeOld then Lib.Network.InvokeOld = Lib.Network.Invoke end
+Lib.Network.Invoke = function(Remote, ...)
+    if Remote == "CustomEggs_Hatch" then
+        local Args = {...}
+        Args[2] = Lib.EggCmds.GetMaxHatch()
+        return Lib.Network.InvokeOld(Remote, table.unpack(Args))
+    end
+    
+    return Lib.Network.InvokeOld(Remote, ...)
+end
